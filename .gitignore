@@ -1,6 +1,9 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
+/P2P Linker/nbproject/private/
+/P2P Linker/build/
+/P2P Linker/dist/
+/P2P Linker/P2P Linker/src/p2p/linker/db_class.class
