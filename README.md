@@ -20,9 +20,9 @@ Installation:
 	- Just run .jar file from /dist folder
 	
 For developers:
-For safety reasons I have removed my db_class.class file from git. If you want it so you can edit the app the way you want it pleas email me at: mr.gigiliIII@gmail.com
+If you want to get the db structure please email me at: mr.gigiliIII@gmail.com
 
-Also if you want to get the db structure pleas email me and I will send it to you. :)
+And I will send it to you.
 
 Igor Ilic
 
