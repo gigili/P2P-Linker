@@ -66,6 +66,7 @@ public class index extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         list1 = new java.awt.List();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("P2P Linker");
@@ -102,6 +103,13 @@ public class index extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("jButton6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,7 +124,9 @@ public class index extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jButton5)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)))
@@ -133,7 +143,8 @@ public class index extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -169,7 +180,7 @@ public class index extends javax.swing.JFrame {
             return;
         }
         final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon = new TrayIcon(createImage("code.gif", "P2P Linker"));
+        final TrayIcon trayIcon = new TrayIcon(createImage("tray_icon.jpg", "P2P Linker"));
         final SystemTray tray = SystemTray.getSystemTray();
         trayIcon.setImageAutoSize(true);
         
@@ -232,6 +243,10 @@ public class index extends javax.swing.JFrame {
            }, 0, 5, TimeUnit.SECONDS);
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        new send_link(username,user_id).setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     
     protected static Image createImage(String path, String description) {
         URL imageURL = index.class.getResource(path);
@@ -287,6 +302,7 @@ public class index extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }

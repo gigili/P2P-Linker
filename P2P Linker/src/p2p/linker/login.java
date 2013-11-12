@@ -125,6 +125,7 @@ public class login extends javax.swing.JFrame {
         log = db.check_login(username, password);
         if(log != null){
             new index(log[0],log[1]).setVisible(true);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
