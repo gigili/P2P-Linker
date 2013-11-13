@@ -12,23 +12,17 @@ import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.swing.ImageIcon;
 
 /**
@@ -41,18 +35,26 @@ public class index extends javax.swing.JFrame {
     String user_id;
     db_class db = new db_class();
     
-    public index(String user, String id) {
+    public index(String user, String id){
         initComponents();
         username = user;
         user_id = id;
-        ResultSet rs = db.get_Links(id);
-        try {
-            while(rs.next()){
-                list1.add(rs.getString("link"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+            exec.scheduleAtFixedRate(new Runnable() {
+                public void run() {
+                    try {
+                        db.updateLinks(0, username);
+                        ResultSet rs = db.get_Links(username);
+                        while(rs.next()){
+                            list1.add(rs.getString("link"));
+                        }
+                        db.updateLinks(1, username);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+           }, 0, 10, TimeUnit.SECONDS);
+        
     }
     
     
@@ -66,7 +68,6 @@ public class index extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         list1 = new java.awt.List();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("P2P Linker");
@@ -87,6 +88,11 @@ public class index extends javax.swing.JFrame {
 
         jButton3.setText("Send link");
         jButton3.setToolTipText("Sends the link from your clipboard");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Exit");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -100,13 +106,6 @@ public class index extends javax.swing.JFrame {
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("jButton6");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -124,9 +123,7 @@ public class index extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                         .addComponent(jButton5)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)))
@@ -143,8 +140,7 @@ public class index extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(jButton5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -169,7 +165,11 @@ public class index extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String link = list1.getSelectedItem();
-        db.delete_Link(user_id,link);
+        try{
+            db.delete_Link(username,link);
+        }catch(SQLException e){
+           System.out.println(e);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -207,13 +207,19 @@ public class index extends javax.swing.JFrame {
          
         trayIcon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                tray.remove(trayIcon);
+                new index(username,user_id).setVisible(true);
             }
         });
          
         show.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tray.remove(trayIcon);
+                try{
+                    db.updateLinks(0,username);
+                }catch(SQLException esd){
+                    System.out.println(esd);
+                }
                 new index(username,user_id).setVisible(true);
             }
         });
@@ -222,8 +228,7 @@ public class index extends javax.swing.JFrame {
          
         send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              //db send_Link
-              //popup, select box, friends;
+              new send_link(username,user_id).setVisible(true);
             }
         });
                   
@@ -237,15 +242,22 @@ public class index extends javax.swing.JFrame {
         ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
             exec.scheduleAtFixedRate(new Runnable() {
                 public void run() {
-                    //db update_Links
-                    //db get_Links
+                    try {
+                        ResultSet links = db.get_Links(username);
+                        if(links.first()){
+                            trayIcon.displayMessage("P2P Linker","You have a new link", TrayIcon.MessageType.INFO);
+                             db.updateLinks(1,username);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
            }, 0, 5, TimeUnit.SECONDS);
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new send_link(username,user_id).setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     
     protected static Image createImage(String path, String description) {
@@ -302,7 +314,6 @@ public class index extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }

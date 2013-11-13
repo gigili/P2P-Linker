@@ -6,6 +6,11 @@
 
 package p2p.linker;
 
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -26,12 +31,11 @@ public class send_link extends javax.swing.JFrame {
         initComponents();
         user_id = us_id;
         username = user;
-        ResultSet friends = db.getFriends(user_id);
-        Integer i = 0;
         try {
+            ResultSet friends = db.getFriends(user_id);
             while(friends.next()){        
                 if(!username.equals(friends.getString("username"))){
-                   // jComboBox1.setSelectedIndex(new ComboItem(friends.getInt("id"),friends.getString("username"))); NOT WORKING
+                   jComboBox1.addItem(friends.getString("username"));
                 }
             }
         } catch (SQLException ex) {
@@ -61,6 +65,11 @@ public class send_link extends javax.swing.JFrame {
         });
 
         jButton2.setText("Exit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Select a friend");
@@ -101,8 +110,21 @@ public class send_link extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("Selected value: " + jComboBox1.getSelectedIndex() );
+        try{
+            String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);//paste data
+            String user = (String) jComboBox1.getSelectedItem();
+            db.send_link(username,user, data);
+            this.setVisible(false);
+        }catch(HeadlessException | UnsupportedFlavorException | IOException e){
+            System.out.println(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(send_link.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

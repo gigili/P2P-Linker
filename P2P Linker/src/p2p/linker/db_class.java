@@ -17,7 +17,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
- * @author Toshiba
+ * @author Igor Ilic
  */
 public class db_class {
  
@@ -29,13 +29,10 @@ public class db_class {
     private Statement st;    
     private ResultSet rs;
     
-    public String[] check_login(String username,String password){
+    public String[] check_login(String username,String password) throws SQLException{
         String[] ret = new String[2];
         
-        try {
-           
-            //String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);  //paste data
-            
+        try {            
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
             st = conn.createStatement();
@@ -48,50 +45,48 @@ public class db_class {
                 ret[0] = rs.getString("username");
                 ret[1] = rs.getString("id");
             }
-            
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        conn.close();
         return ret;
     }
     
-    public ResultSet get_Links(String id){
+    public ResultSet get_Links(String username) throws SQLException{
         try {
             
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
             st = conn.createStatement();
             
-            String query = "SELECT * FROM links WHERE too = '"+id+"' AND open = '0'";
+            String query = "SELECT * FROM links WHERE too = '"+username+"' AND open = '0'";
             rs = st.executeQuery(query);
-            
+            return rs;
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         }
+        conn.close();
         return rs;
     }
     
-    public void delete_Link(String us_id,String link){
+    public void delete_Link(String username,String link) throws SQLException{
        try {
            
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
             st = conn.createStatement();
             
-            String query = "DELETE FROM links WHERE too = '" + us_id + "' AND link = '" + link + "'";
-            if(st.execute(query)){
-                showMessageDialog(null,"Link deleted successfully!");
-            }else{
-                showMessageDialog(null,"There was an error!\nPleas try again");
-            }
-            
+            String query = "DELETE FROM links WHERE too = '" + username + "' AND link = '" + link + "'";
+            st.execute(query);
+            showMessageDialog(null,"Link deleted successfully!");            
+            get_Links(username);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         }
+       conn.close();
     }
 
-    ResultSet getFriends(String user_id) {
+    ResultSet getFriends(String user_id) throws SQLException {
        try {  
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
@@ -101,10 +96,45 @@ public class db_class {
                            "JOIN friends AS f ON (f.uid1 = u.id OR f.uid2 = u.id)\n" +
                            "WHERE f.uid1 = 1 OR f.uid2 = 1" ;
             rs = st.executeQuery(query); 
+            return rs;
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         }
+       conn.close();
        return rs;
     }
+    
+    public void send_link(String username,String user,String link) throws SQLException{
+       try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "INSERT INTO links (`from`,`too`,`link`) VALUES ('"+username+"','"+user+"','"+link+"')" ;
+            st.execute(query); 
+            showMessageDialog(null,"Link sent successfully!");
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+       conn.close();
+    }
+    
+    public void updateLinks(Integer x,String username) throws SQLException{
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "UPDATE links SET open = '" + x + "' WHERE too = '" + username + "'" ;
+            st.execute(query);
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        conn.close();
+    }
+   
+
     
 }

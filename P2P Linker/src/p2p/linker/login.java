@@ -5,6 +5,8 @@
  */
 package p2p.linker;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Igor Ilic
@@ -122,10 +124,14 @@ public class login extends javax.swing.JFrame {
         String username = jTextField1.getText();
         String password = jPasswordField1.getText();
         String[] log = new String[2];
-        log = db.check_login(username, password);
-        if(log != null){
-            new index(log[0],log[1]).setVisible(true);
-            this.setVisible(false);
+        try{
+            log = db.check_login(username, password);
+            if(log != null){
+                new index(log[0],log[1]).setVisible(true);
+                this.setVisible(false);
+            }
+        }catch(SQLException e){
+            System.out.println(e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
