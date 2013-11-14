@@ -79,10 +79,12 @@ public class index extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -146,6 +148,15 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator2);
 
+        jMenuItem6.setText("Show friend requests");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
+        jMenu1.add(jSeparator3);
+
         jMenuItem3.setText("Show friends");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +164,7 @@ public class index extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
-        jMenu1.add(jSeparator3);
+        jMenu1.add(jSeparator4);
 
         jMenuItem4.setText("Hide");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +173,7 @@ public class index extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem4);
-        jMenu1.add(jSeparator4);
+        jMenu1.add(jSeparator5);
 
         jMenuItem5.setText("Exit");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -364,6 +375,10 @@ public class index extends javax.swing.JFrame {
         jButton5ActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        new friend_request(username, user_id).setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     
     protected static Image createImage(String path, String description) {
         URL imageURL = index.class.getResource(path);
@@ -427,10 +442,12 @@ public class index extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }

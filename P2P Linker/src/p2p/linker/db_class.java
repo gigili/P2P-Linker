@@ -37,6 +37,7 @@ public class db_class {
             
             if(!rs.next()){
                 showMessageDialog(null,"Login incorrect!\nPleas try again");
+                ret = null;
             }else{
                 ret[0] = rs.getString("username");
                 ret[1] = rs.getString("id");
@@ -89,7 +90,7 @@ public class db_class {
             
             String query = "SELECT u.username,u.id,f.uid1,f.uid2 FROM users AS u \n" +
                            "JOIN friends AS f ON (f.uid1 = u.id OR f.uid2 = u.id)\n" +
-                           "WHERE f.uid1 = 1 OR f.uid2 = 1" ;
+                           "WHERE f.uid1 = '"+user_id+"' OR f.uid2 = '"+user_id+"'" ;
             rs = st.executeQuery(query); 
             return rs;
         } catch (SQLException | ClassNotFoundException ex) {
@@ -144,10 +145,11 @@ public class db_class {
                 showMessageDialog(null,"Unable to find the requested username: " + user);
             }
             
-            while(rs.first()){
+            if(rs.first()){
                 add_user_id = rs.getInt("id");
-                String q2 = "INSERT INTO friend_request (`from`,`to`) VALUES ('"+us_id+"','"+add_user_id+"')";
-                st.execute(q2);
+                Statement st2 = conn.createStatement();
+                String q2 = "INSERT INTO friend_request (`from`,`to`) VALUES ('" + us_id + "','" + add_user_id + "')";
+                st2.execute(q2);
                 showMessageDialog(null, "Friend added successfully!");
             }
             conn.close();
@@ -155,5 +157,111 @@ public class db_class {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
+
+    public void deleteFriend(String user_id, String del_user) {
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT * FROM users WHERE username = '" + del_user + "'";
+            rs = st.executeQuery(query);
+            if(!rs.first()){
+                showMessageDialog(null,"Unable to find the requested username: " + del_user);
+            }
+            
+            if(rs.first()){
+                Integer del_user_id = rs.getInt("id");
+                Integer my_user_id = Integer.parseInt(user_id);
+                Statement st2 = conn.createStatement();
+                String q2 = "DELETE FROM friends WHERE (uid1 = '" + my_user_id + "' AND uid2 = '" + del_user_id + "') OR (uid1 = '" + del_user_id + "' AND uid2 = '" + my_user_id + "')";
+                st2.execute(q2);
+                showMessageDialog(null, "Friend removed successfully!");
+            }
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    public void acceptFriend(String user_id,String username){
+      try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT * FROM users WHERE username = '" + username + "'";
+            rs = st.executeQuery(query);
+            if(!rs.first()){
+                showMessageDialog(null,"Unable to find the requested username: " + username);
+            }
+            
+            if(rs.first()){
+                Integer acc_user_id = rs.getInt("id");
+                Integer my_user_id = Integer.parseInt(user_id);
+                Statement st2 = conn.createStatement();
+                String q2 = "INSERT INTO friends (uid1,uid2) VALUES ('" + my_user_id + "','" + acc_user_id + "')";
+                st2.execute(q2);
+                               
+                String q3 = "DELETE FROM friend_request WHERE `to` = '" + user_id + "' AND `from` = '" + acc_user_id + "'";
+                Statement st3 = conn.createStatement();
+                st3.execute(q3);
+                
+                showMessageDialog(null, "Friend request accepted successfully!");
+            }
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    public ResultSet getRequests(String user_id) throws SQLException{
+        Integer my_user_id = Integer.parseInt(user_id);
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT f.`from`,f.to,u.username FROM friend_request AS f " +
+                           "JOIN users AS u ON f.from = u.id " +
+                           "WHERE f.to = " + my_user_id + "";
+            rs = st.executeQuery(query);
+                       
+            return rs;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        conn.close();
+        return rs;
+    }
+    
+    public void denyRequest(String user_id,String username){
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT * FROM users WHERE username = '" + username + "'";
+            rs = st.executeQuery(query);
+            if(!rs.first()){
+                showMessageDialog(null,"Unable to find the requested username: " + username);
+            }
+            
+            if(rs.first()){
+                Integer deny_user_id = rs.getInt("id");
+                Integer my_user_id = Integer.parseInt(user_id);
+
+                String q3 = "DELETE FROM friend_request WHERE `to` = '" + my_user_id + "' AND `from` = '" + deny_user_id + "'";
+                Statement st3 = conn.createStatement();
+                st3.execute(q3);
+                
+                showMessageDialog(null, "Friend request denied!");
+            }
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+
     
 }
