@@ -39,11 +39,16 @@ public class index extends javax.swing.JFrame {
         initComponents();
         username = user;
         user_id = id;
+        try{
+            db.updateLinks(0, username);
+        }catch(SQLException e){
+            System.out.println(e);
+        }
         ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
             exec.scheduleAtFixedRate(new Runnable() {
                 public void run() {
                     try {
-                        db.updateLinks(0, username);
+                        
                         ResultSet rs = db.get_Links(username);
                         while(rs.next()){
                             list1.add(rs.getString("link"));
@@ -68,6 +73,18 @@ public class index extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         list1 = new java.awt.List();
         jButton5 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("P2P Linker");
@@ -109,6 +126,57 @@ public class index extends javax.swing.JFrame {
             }
         });
 
+        jMenu1.setText("Options");
+
+        jMenuItem1.setText("Send link");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem2.setText("Add friend");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem3.setText("Show friends");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+        jMenu1.add(jSeparator3);
+
+        jMenuItem4.setText("Hide");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator4);
+
+        jMenuItem5.setText("Exit");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,7 +199,7 @@ public class index extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -188,11 +256,17 @@ public class index extends javax.swing.JFrame {
         MenuItem show = new MenuItem("Show");
         MenuItem send = new MenuItem("Send link");
         MenuItem exit = new MenuItem("Exit");
+        MenuItem addfriend  = new MenuItem("Add friend");
+        MenuItem showFriends  = new MenuItem("Show friends");
          
         //Add components to popup menu
         popup.add(show);
         popup.addSeparator();
         popup.add(send);
+        popup.addSeparator();
+        popup.add(showFriends);
+        popup.addSeparator();
+        popup.add(addfriend);
         popup.addSeparator();
         popup.add(exit);
          
@@ -224,6 +298,17 @@ public class index extends javax.swing.JFrame {
             }
         });
          
+        addfriend.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new add_friend(username,user_id).setVisible(true);
+            }
+        });
+        
+        showFriends.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new show_friends(username,user_id).setVisible(true);
+            }
+        });
        
          
         send.addActionListener(new ActionListener() {
@@ -245,19 +330,39 @@ public class index extends javax.swing.JFrame {
                     try {
                         ResultSet links = db.get_Links(username);
                         if(links.first()){
-                            trayIcon.displayMessage("P2P Linker","You have a new link", TrayIcon.MessageType.INFO);
+                             trayIcon.displayMessage("P2P Linker","You have a new link", TrayIcon.MessageType.INFO);
                              db.updateLinks(1,username);
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-           }, 0, 5, TimeUnit.SECONDS);
+           }, 0, 10, TimeUnit.SECONDS);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new send_link(username,user_id).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       new send_link(username,user_id).setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        new add_friend(username, user_id).setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new show_friends(username, user_id).setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        jButton5ActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     
     protected static Image createImage(String path, String description) {
@@ -314,6 +419,18 @@ public class index extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 }

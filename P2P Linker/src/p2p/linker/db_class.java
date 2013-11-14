@@ -6,10 +6,6 @@
 
 package p2p.linker;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,10 +17,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class db_class {
  
-    private String server = "";
-    private String db = "";
-    private String db_user = "";
-    private String db_pass = "";
+    private final String server = "";
+    private final String db = "";
+    private final String db_user = "";
+    private final String db_pass = "";
     private Connection conn;
     private Statement st;    
     private ResultSet rs;
@@ -70,8 +66,7 @@ public class db_class {
     }
     
     public void delete_Link(String username,String link) throws SQLException{
-       try {
-           
+       try {  
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
             st = conn.createStatement();
@@ -135,6 +130,30 @@ public class db_class {
         conn.close();
     }
    
-
+    public void addFriend(String user,String user_id) {
+       Integer add_user_id;
+       Integer us_id = Integer.parseInt(user_id);
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT * FROM users WHERE username = '" + user + "'";
+            rs = st.executeQuery(query);
+            if(!rs.first()){
+                showMessageDialog(null,"Unable to find the requested username: " + user);
+            }
+            
+            while(rs.first()){
+                add_user_id = rs.getInt("id");
+                String q2 = "INSERT INTO friend_request (`from`,`to`) VALUES ('"+us_id+"','"+add_user_id+"')";
+                st.execute(q2);
+                showMessageDialog(null, "Friend added successfully!");
+            }
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
     
 }
