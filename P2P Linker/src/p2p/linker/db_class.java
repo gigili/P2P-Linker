@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package p2p.linker;
 
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -264,11 +259,34 @@ public class db_class {
     }
 
     public void register(String f_name, String l_name, String email, String username, String password) {
-        check_email(email);
+        String full_name = f_name + " " + l_name;
+        if(!"".equals(f_name) && !"".equals(l_name) && !"".equals(email) && !"".equals(username) && !"".equals(password) && check_email(email)){
+            try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "INSERT INTO users (`name`,`email`,`username`,`password`) VALUES ('" + full_name + "','" + email + "','" + username + "',md5('"+password+"'))";
+            if(st.execute(query)){
+                showMessageDialog(null, "Account created successfully");
+            }
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        }else{
+            showMessageDialog(null,"All fields are required!");
+        }
     }
     
-    public void check_email(String email){
-        
+    public Boolean check_email(String email){
+        String[] split = email.split("@");
+        if(!"".equals(split[1])){
+            return true;
+        }else{
+            showMessageDialog(null, "Invalid email!","P2P Linker",ERROR_MESSAGE);
+            return false;
+        }
     }
     
     
