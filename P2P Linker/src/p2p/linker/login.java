@@ -5,6 +5,7 @@
  */
 package p2p.linker;
 
+import java.awt.SystemColor;
 import java.sql.SQLException;
 
 /**
@@ -17,6 +18,7 @@ public class login extends javax.swing.JFrame {
      * Creates new form login
      */
     public login() {
+        this.getContentPane().setBackground(SystemColor.activeCaption);
         initComponents();
     }
 

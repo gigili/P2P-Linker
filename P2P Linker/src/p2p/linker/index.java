@@ -11,6 +11,7 @@ import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.SystemColor;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -36,6 +37,7 @@ public class index extends javax.swing.JFrame {
     db_class db = new db_class();
     
     public index(String user, String id){
+        this.getContentPane().setBackground(SystemColor.activeCaption);
         initComponents();
         username = user;
         user_id = id;
@@ -90,6 +92,8 @@ public class index extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("P2P Linker");
+        setBackground(java.awt.SystemColor.activeCaption);
+        setResizable(false);
 
         jButton1.setText("Delete link");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +171,7 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jSeparator4);
 
         jMenuItem4.setText("Hide");
+        jMenuItem4.setToolTipText("Moves the program to system tray");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);

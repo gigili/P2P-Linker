@@ -263,5 +263,15 @@ public class db_class {
         } 
     }
 
+    public void register(String f_name, String l_name, String email, String username, String password) {
+        check_email(email);
+    }
+    
+    public void check_email(String email){
+        
+    }
+    
+    
+
     
 }

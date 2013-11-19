@@ -1,5 +1,7 @@
 package p2p.linker;
 
+import java.awt.SystemColor;
+
 /**
  *
  * @author Igor Ilic
@@ -12,6 +14,7 @@ public class show_friends extends javax.swing.JFrame {
     private final String user_id;
     
     public show_friends(String user,String us_id) {
+        this.getContentPane().setBackground(SystemColor.activeCaption);
         initComponents();
         username = user;
         user_id = us_id;

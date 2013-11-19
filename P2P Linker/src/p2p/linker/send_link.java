@@ -7,6 +7,7 @@
 package p2p.linker;
 
 import java.awt.HeadlessException;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -28,6 +29,7 @@ public class send_link extends javax.swing.JFrame {
     String username;
     
     public send_link(String user,String us_id) {
+        this.getContentPane().setBackground(SystemColor.activeCaption);
         initComponents();
         user_id = us_id;
         username = user;

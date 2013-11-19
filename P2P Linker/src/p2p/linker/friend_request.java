@@ -6,6 +6,7 @@
 
 package p2p.linker;
 
+import java.awt.SystemColor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -22,6 +23,7 @@ public class friend_request extends javax.swing.JFrame {
     private final String user_id;
     
     public friend_request(String user, String us_id) {
+        this.getContentPane().setBackground(SystemColor.activeCaption);
         initComponents();
         username = user;
         user_id = us_id;
