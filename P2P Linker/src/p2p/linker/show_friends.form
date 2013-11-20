@@ -58,6 +58,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/p2p/linker/images/remove.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Delete friend"/>
         <Property name="toolTipText" type="java.lang.String" value="Deletes the selected friend"/>
       </Properties>
@@ -67,6 +70,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/p2p/linker/images/exit.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Close"/>
       </Properties>
       <Events>

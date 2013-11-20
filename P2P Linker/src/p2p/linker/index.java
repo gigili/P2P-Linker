@@ -95,7 +95,7 @@ public class index extends javax.swing.JFrame {
         setBackground(java.awt.SystemColor.activeCaption);
         setResizable(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/remove.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/remove.png"))); // NOI18N
         jButton1.setText("Delete link");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +103,7 @@ public class index extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/browser.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/browser.png"))); // NOI18N
         jButton2.setText("Open link");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,7 +111,7 @@ public class index extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/send_link.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/send_link.png"))); // NOI18N
         jButton3.setText("Send link");
         jButton3.setToolTipText("Sends the link from your clipboard");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +120,7 @@ public class index extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/exit.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/exit.png"))); // NOI18N
         jButton4.setText("Exit");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +128,7 @@ public class index extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/hide.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/hide.png"))); // NOI18N
         jButton5.setText("Hide");
         jButton5.setToolTipText("Moves the program to system tray");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -137,10 +137,10 @@ public class index extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/options.png"))); // NOI18N
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/options.png"))); // NOI18N
         jMenu1.setText("Options");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/send_link.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/send_link.png"))); // NOI18N
         jMenuItem1.setText("Send link");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,7 +150,7 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
         jMenu1.add(jSeparator1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/add_friend.png"))); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/add_friend.png"))); // NOI18N
         jMenuItem2.setText("Add friend");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,9 +160,8 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator2);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/add_friend.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/requests.png"))); // NOI18N
         jMenuItem6.setText("Show friend requests");
-        jMenuItem6.setPreferredSize(null);
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -171,7 +170,7 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
         jMenu1.add(jSeparator3);
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/show_friends.png"))); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/show_friends.png"))); // NOI18N
         jMenuItem3.setText("Show friends");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +180,7 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem3);
         jMenu1.add(jSeparator4);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/hide.png"))); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/hide.png"))); // NOI18N
         jMenuItem4.setText("Hide");
         jMenuItem4.setToolTipText("Moves the program to system tray");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +191,7 @@ public class index extends javax.swing.JFrame {
         jMenu1.add(jMenuItem4);
         jMenu1.add(jSeparator5);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/exit.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/exit.png"))); // NOI18N
         jMenuItem5.setText("Exit");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

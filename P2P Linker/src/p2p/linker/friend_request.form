@@ -61,6 +61,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/p2p/linker/images/exit.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Close"/>
       </Properties>
       <Events>
@@ -69,6 +72,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/p2p/linker/images/add_friend.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Accept friend"/>
         <Property name="toolTipText" type="java.lang.String" value="Accepts the selected friend request"/>
       </Properties>
@@ -78,6 +84,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/p2p/linker/images/remove.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Deny request"/>
       </Properties>
       <Events>

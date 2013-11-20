@@ -8,7 +8,7 @@ package p2p.linker;
 
 /**
  *
- * @author Toshiba
+ * @author Igor Ilic
  */
 public class P2PLinker {
 
