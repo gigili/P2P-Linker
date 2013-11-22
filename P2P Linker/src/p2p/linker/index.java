@@ -41,6 +41,7 @@ public class index extends javax.swing.JFrame {
         initComponents();
         username = user;
         user_id = id;
+        jMenuItem6.setText(jMenuItem6.getText() + " (0)");
         try{
             db.updateLinks(0, username);
         }catch(SQLException e){
@@ -50,7 +51,12 @@ public class index extends javax.swing.JFrame {
             exec.scheduleAtFixedRate(new Runnable() {
                 public void run() {
                     try {
-                        
+                        ResultSet f_rq = db.get_friend_requests_num(user_id);
+                        if(f_rq.first()){
+                            jMenuItem6.setText("Show friend requests (" + f_rq.getString("cnt") + ")");
+                        }else{
+                            jMenuItem6.setText("Show friend requests (0)");
+                        }
                         ResultSet rs = db.get_Links(username);
                         while(rs.next()){
                             list1.add(rs.getString("link"));
@@ -61,7 +67,6 @@ public class index extends javax.swing.JFrame {
                     }
                 }
            }, 0, 10, TimeUnit.SECONDS);
-        
     }
     
     
@@ -241,6 +246,7 @@ public class index extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -263,6 +269,17 @@ public class index extends javax.swing.JFrame {
         String link = list1.getSelectedItem();
         try{
             db.delete_Link(username,link);
+            try {
+                list1.clear();
+                db.updateLinks(0, username);
+                 ResultSet rs = db.get_Links(username);
+                 while(rs.next()){
+                    list1.add(rs.getString("link"));
+                 }
+                 db.updateLinks(1, username);
+            } catch (SQLException ex) {
+                 Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }catch(SQLException e){
            System.out.println(e);
         }

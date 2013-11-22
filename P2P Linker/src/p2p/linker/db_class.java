@@ -211,7 +211,6 @@ public class db_class {
     }
     
     public ResultSet getRequests(String user_id) throws SQLException{
-        Integer my_user_id = Integer.parseInt(user_id);
         try {  
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
@@ -219,12 +218,13 @@ public class db_class {
             
             String query = "SELECT f.`from`,f.to,u.username FROM friend_request AS f " +
                            "JOIN users AS u ON f.from = u.id " +
-                           "WHERE f.to = " + my_user_id + "";
+                           "WHERE f.to = " + user_id + "";
             rs = st.executeQuery(query);
                        
             return rs;
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         } 
         conn.close();
         return rs;
@@ -271,9 +271,9 @@ public class db_class {
                 showMessageDialog(null, "Account created successfully");
             }
             conn.close();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+            } 
         }else{
             showMessageDialog(null,"All fields are required!");
         }
@@ -287,6 +287,22 @@ public class db_class {
             showMessageDialog(null, "Invalid email!","P2P Linker",ERROR_MESSAGE);
             return false;
         }
+    }
+    
+    public ResultSet get_friend_requests_num(String id) throws SQLException{
+       try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "SELECT COUNT(*) AS cnt FROM friend_request  WHERE `to` = '" + id + "'";
+            rs = st.executeQuery(query);           
+            return rs;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        conn.close();
+        return rs;
     }
     
     

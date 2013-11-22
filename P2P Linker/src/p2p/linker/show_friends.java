@@ -1,6 +1,8 @@
 package p2p.linker;
 
 import java.awt.SystemColor;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -18,6 +20,16 @@ public class show_friends extends javax.swing.JFrame {
         initComponents();
         username = user;
         user_id = us_id;
+        try{
+            ResultSet req = db.getFriends(user_id);
+            while(req.next()){
+                if(!username.equals(req.getString("username"))){
+                    list1.addItem(req.getString("username"));
+                }
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
     }
 
     
@@ -76,6 +88,7 @@ public class show_friends extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

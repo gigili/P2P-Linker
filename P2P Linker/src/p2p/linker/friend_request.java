@@ -31,12 +31,12 @@ public class friend_request extends javax.swing.JFrame {
         try{
             ResultSet requests = db.getRequests(user_id);
             
-            if(!requests.first()){
-                showMessageDialog(null,"There are no requests at this moment!");
+            while(requests.next()){
+                list1.addItem(requests.getString("username"));
             }
             
-            while(requests.next()){
-                list1.add(requests.getString("username"));
+             if(!requests.first()){
+                showMessageDialog(null,"There are no requests at this moment!");
             }
         }catch(SQLException e){
             System.out.println(e);
@@ -111,6 +111,7 @@ public class friend_request extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
