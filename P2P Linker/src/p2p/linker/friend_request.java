@@ -37,6 +37,7 @@ public class friend_request extends javax.swing.JFrame {
             
              if(!requests.first()){
                 showMessageDialog(null,"There are no requests at this moment!");
+                this.setVisible(false);
             }
         }catch(SQLException e){
             System.out.println(e);

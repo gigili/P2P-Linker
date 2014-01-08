@@ -304,8 +304,4 @@ public class db_class {
         conn.close();
         return rs;
     }
-    
-    
-
-    
 }

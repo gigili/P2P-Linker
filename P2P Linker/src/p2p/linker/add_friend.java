@@ -40,6 +40,7 @@ public class add_friend extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("P2P Linker - add friend");
+        setBackground(java.awt.SystemColor.activeCaption);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Enter his/her username");
