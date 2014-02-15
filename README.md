@@ -3,9 +3,7 @@ P2P-Linker
 
 P2P Linker is a link sharing app
 
-The app is built so anyone can use is to share link with their 
-
-friends and/or family members.
+The app is built so anyone can use is to share links with their friends and/or family.
 
 App requirements:
 
@@ -15,6 +13,7 @@ App requirements:
 System compatibilities:
 
 	- Compatible with any OS(Windows,Linux,Mac)
+	- May look a bit different on different OS.
 	
 Installation:
 
