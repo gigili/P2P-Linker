@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
+        
 
 /**
  *
@@ -303,5 +304,22 @@ public class db_class {
         } 
         conn.close();
         return rs;
+    }
+
+    public void sendMessage(String name, String email, String subject, String message){
+        try {  
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+server+"/"+db,db_user,db_pass);
+            st = conn.createStatement();
+            
+            String query = "INSERT INTO feedback (`name`,`email`,`subject`,`message`) VALUES ('" + name + "','" + email + "','" + subject + "','"+ message +"')";
+            if(!st.execute(query)){
+                showMessageDialog(null, "Message sent successfully!");
+            }
+                        
+            conn.close();
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(index.class.getName()).log(Level.SEVERE, null, ex);
+            } 
     }
 }

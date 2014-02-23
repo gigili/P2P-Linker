@@ -228,6 +228,11 @@ public class index extends javax.swing.JFrame {
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/p2p/linker/images/bug.png"))); // NOI18N
         jMenuItem8.setText("Report a problem");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem8);
         jMenu3.add(jSeparator7);
 
@@ -441,6 +446,10 @@ public class index extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         new about().setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        new report_problem(username).setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     
     protected static Image createImage(String path, String description) {
