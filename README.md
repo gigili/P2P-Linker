@@ -25,7 +25,7 @@ DEVELOPERS
 
 If you want to get the db structure please email me at: 
 
-mr.gigiliIII@gmail.com
+github@igorilic.net
 
 And I will send it to you.
 
